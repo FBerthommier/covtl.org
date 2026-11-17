@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COVTL — articulatory speech synthesis from text</title>
+<meta name="description" content="COVTL: articulatory speech synthesis (Berthommier COVTL model + VocalTractLab). Free standalone console for Windows and Linux, or pip install covtl.">
+<style>
+  :root { --ink:#111; --bg:#f7f7f5; --card:#fff; --accent:#0b5fd0; --ok:#0a7d38; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         color:var(--ink); background:var(--bg); line-height:1.55; }
+  header { padding:3rem 1rem 2rem; text-align:center; }
+  header h1 { margin:0 0 .3rem; font-size:2.2rem; letter-spacing:.5px; }
+  header p { margin:.2rem auto; max-width:46rem; color:#444; }
+  main { max-width:62rem; margin:0 auto; padding:0 1rem 3rem; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+           gap:1.2rem; margin:1.5rem 0; }
+  .card { background:var(--card); border:1px solid #e2e2de; border-radius:12px;
+          padding:1.3rem; text-align:center; }
+  .card img { width:132px; height:132px; }
+  .card h2 { margin:.2rem 0 .4rem; font-size:1.15rem; }
+  .card p { margin:.2rem 0; font-size:.9rem; color:#555; }
+  .btn { display:inline-block; margin:.5rem .2rem .2rem; padding:.7rem 1.2rem;
+         background:var(--accent); color:#fff; text-decoration:none;
+         border-radius:8px; font-weight:600; }
+  .btn:hover { filter:brightness(1.1); }
+  .sha { font-family:ui-monospace,Consolas,monospace; font-size:.72rem;
+         color:#777; word-break:break-all; }
+  .pip { background:var(--card); border:1px solid #e2e2de; border-radius:12px;
+         padding:1.3rem; margin:1.5rem 0; }
+  .pip code { background:#eef1f4; padding:.35rem .6rem; border-radius:6px;
+              font-size:1rem; }
+  footer { text-align:center; padding:2rem 1rem; color:#666; font-size:.85rem; }
+  a.plain { color:var(--accent); }
+  @media (max-width:640px) { header h1 { font-size:1.6rem; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>COVTL</h1>
+  <p>Articulatory speech synthesis from text — the Berthommier COVTL model
+     driving <strong>VocalTractLab</strong>. 5 speakers, 6 languages,
+     expressive prosody, phonation modes (breathy / creaky / whisper),
+     cross-word sandhi, polar video.</p>
+  <p><em>Synthèse articulatoire de parole à partir du texte — console
+     gratuite, sans installation.</em></p>
+</header>
+
+<main>
+  <div class="cards">
+    <div class="card">
+      <img src="qr-download-windows.png" alt="QR code — Windows download">
+      <h2>Windows 10/11 · x64</h2>
+      <p>Standalone console, 122 MB (zip)</p>
+      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/windows-standalone/COVTL-Console-Windows-x64.zip">Download for Windows</a>
+      <p>Scan the QR code with your phone, or click the button.</p>
+      <p class="sha">sha256 36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</p>
+    </div>
+    <div class="card">
+      <img src="qr-download-linux.png" alt="QR code — Linux download">
+      <h2>Linux · x64</h2>
+      <p>Standalone console, 192 MB (zip)</p>
+      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/linux-standalone/COVTL-Console-Linux-x64.zip">Download for Linux</a>
+      <p>Scan the QR code with your phone, or click the button.</p>
+      <p class="sha">sha256 32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</p>
+    </div>
+  </div>
+
+  <div class="pip">
+    <h2 style="margin:.1rem 0 .5rem; font-size:1.15rem;">Python users — one command</h2>
+    <p>Unzip the archive, run <code>covtl-console.exe</code>
+       (Windows) or <code>./covtl-console</code> (Linux) and open
+       <code>http://127.0.0.1:8421</code> in your browser.</p>
+    <p>Or, with Python 3.9+ already installed:</p>
+    <code>pip install covtl</code>
+    <p style="margin:.6rem 0 0;">Then: <code>vtl-synth run "this is easy for us" -o out</code>
+       — or <code>covtl-console</code> for the same web interface.</p>
+  </div>
+
+  <p style="text-align:center;">
+    <a class="plain" href="https://github.com/FBerthommier/covtl-pipeline">GitHub (engine)</a> ·
+    <a class="plain" href="https://github.com/FBerthommier/covtl-console">GitHub (console)</a> ·
+    <a class="plain" href="https://pypi.org/project/covtl/">PyPI</a> ·
+    <a class="plain" href="https://pypi.org/project/covtl-synth/">covtl-synth</a>
+  </p>
+</main>
+
+<footer>
+  GPL-3.0-or-later — engine © Frédéric Berthommier, built on
+  VocalTractLab (GPLv3). Downloads are rebuilt automatically for every
+  release; the SHA-256 above matches the current build.
+</footer>
+</body>
+</html>
