@@ -36,7 +36,8 @@
   .docstrip { display:flex; gap:1.4rem; align-items:center; flex-wrap:wrap;
               background:var(--card); border:1px solid #e2e2de; border-radius:12px;
               padding:1.3rem; margin:1.5rem 0; }
-  .docstrip img { width:150px; height:150px; flex:0 0 auto; }
+  .docstrip .qrbox { flex:0 0 auto; text-align:center; }
+  .docstrip img { width:150px; height:150px; }
   .docstrip .txt { flex:1 1 260px; }
   .verify pre { background:#111; color:#eee; padding:.9rem 1rem; border-radius:8px;
                 overflow-x:auto; font-size:.78rem; line-height:1.7; margin:.4rem 0; }
@@ -104,7 +105,10 @@
   </div>
 
   <div class="docstrip">
-    <img src="qr-to-docs.png" alt="QR code — documentation folder">
+    <div class="qrbox">
+      <img src="qr-to-docs.png" alt="QR code — documentation folder">
+      <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/tree/main/docs</p>
+    </div>
     <div class="txt">
       <h2 style="margin:.1rem 0 .4rem; font-size:1.15rem;">Documentation — user &amp; technical manuals</h2>
       <p style="margin:.2rem 0; font-size:.9rem; color:#555;">Full manuals, validation
