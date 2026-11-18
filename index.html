@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>COVTL — articulatory speech synthesis from text</title>
-<meta name="description" content="COVTL: articulatory speech synthesis (Berthommier COVTL model + VocalTractLab). Free standalone console for Windows and Linux, or pip install covtl.">
+<meta name="description" content="COVTL: articulatory speech synthesis (Berthommier COVTL model + VocalTractLab). Free standalone console for Windows, Linux and macOS, or pip install covtl.">
 <style>
   :root { --ink:#111; --bg:#f7f7f5; --card:#fff; --accent:#0b5fd0; --ok:#0a7d38; }
   * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
            gap:1.2rem; margin:1.5rem 0; }
   .card { background:var(--card); border:1px solid #e2e2de; border-radius:12px;
           padding:1.3rem; text-align:center; }
-  .card img { width:132px; height:132px; }
+  .card img { width:150px; height:150px; }
   .card h2 { margin:.2rem 0 .4rem; font-size:1.15rem; }
   .card p { margin:.2rem 0; font-size:.9rem; color:#555; }
   .btn { display:inline-block; margin:.5rem .2rem .2rem; padding:.7rem 1.2rem;
@@ -27,10 +27,20 @@
   .btn:hover { filter:brightness(1.1); }
   .sha { font-family:ui-monospace,Consolas,monospace; font-size:.72rem;
          color:#777; word-break:break-all; }
+  .qr-url { font-family:ui-monospace,Consolas,monospace; font-size:.68rem;
+            color:#555; word-break:break-all; margin:.3rem 0 .1rem; }
   .pip { background:var(--card); border:1px solid #e2e2de; border-radius:12px;
          padding:1.3rem; margin:1.5rem 0; }
   .pip code { background:#eef1f4; padding:.35rem .6rem; border-radius:6px;
               font-size:1rem; }
+  .docstrip { display:flex; gap:1.4rem; align-items:center; flex-wrap:wrap;
+              background:var(--card); border:1px solid #e2e2de; border-radius:12px;
+              padding:1.3rem; margin:1.5rem 0; }
+  .docstrip img { width:150px; height:150px; flex:0 0 auto; }
+  .docstrip .txt { flex:1 1 260px; }
+  .verify pre { background:#111; color:#eee; padding:.9rem 1rem; border-radius:8px;
+                overflow-x:auto; font-size:.78rem; line-height:1.7; margin:.4rem 0; }
+  .verify h2, .pip h2 { margin:.1rem 0 .5rem; font-size:1.15rem; }
   footer { text-align:center; padding:2rem 1rem; color:#666; font-size:.85rem; }
   a.plain { color:var(--accent); }
   @media (max-width:640px) { header h1 { font-size:1.6rem; } }
@@ -43,6 +53,8 @@
      driving <strong>VocalTractLab</strong>. 5 speakers, 6 languages,
      expressive prosody, phonation modes (breathy / creaky / whisper),
      cross-word sandhi, polar video.</p>
+  <p><strong>Free standalone console for Windows, Linux and macOS</strong> —
+     or one pip command. 100% local: no cloud, no account, no telemetry.</p>
   <p><em>Synthèse articulatoire de parole à partir du texte — console
      gratuite, sans installation.</em></p>
 </header>
@@ -50,37 +62,91 @@
 <main>
   <div class="cards">
     <div class="card">
-      <img src="qr-download-windows.png" alt="QR code — Windows download">
+      <img src="qr-to-brief.png" alt="QR code — open the mobile-friendly brief (no download)">
+      <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md</p>
       <h2>Windows 10/11 · x64</h2>
       <p>Standalone console, 122 MB (zip)</p>
       <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/windows-standalone/COVTL-Console-Windows-x64.zip">Download for Windows</a>
-      <p>Scan the QR code with your phone, or click the button.</p>
+      <p>The QR code opens a one-page brief in your phone's browser (no
+         100+ MB download) — use the button on this page to get the zip.
+         After scanning, read the address bar: official pages live on
+         <span class="qr-url">github.com/FBerthommier/…</span></p>
       <p class="sha">sha256 36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</p>
     </div>
     <div class="card">
-      <img src="qr-download-linux.png" alt="QR code — Linux download">
+      <img src="qr-to-brief.png" alt="QR code — open the mobile-friendly brief (no download)">
+      <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md</p>
       <h2>Linux · x64</h2>
       <p>Standalone console, 192 MB (zip)</p>
       <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/linux-standalone/COVTL-Console-Linux-x64.zip">Download for Linux</a>
-      <p>Scan the QR code with your phone, or click the button.</p>
+      <p>The QR code opens a one-page brief in your phone's browser (no
+         100+ MB download) — use the button on this page to get the zip.
+         After scanning, read the address bar: official pages live on
+         <span class="qr-url">github.com/FBerthommier/…</span></p>
       <p class="sha">sha256 32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</p>
+    </div>
+    <div class="card">
+      <img src="qr-to-brief.png" alt="QR code — open the mobile-friendly brief (no download)">
+      <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md</p>
+      <h2>macOS · Apple Silicon</h2>
+      <p>Standalone console, 98 MB (zip)</p>
+      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/macos-standalone/COVTL-Console-macOS.zip">Download for macOS</a>
+      <p>Right-click the app &gt; Open the first time (unsigned build).
+         Requires macOS 11+, M1/M2/M3/M4.</p>
+      <p class="sha">sha256 810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2</p>
+    </div>
+  </div>
+
+  <div class="docstrip">
+    <img src="qr-to-docs.png" alt="QR code — documentation folder">
+    <div class="txt">
+      <h2 style="margin:.1rem 0 .4rem; font-size:1.15rem;">Documentation — user &amp; technical manuals</h2>
+      <p style="margin:.2rem 0; font-size:.9rem; color:#555;">Full manuals, validation
+         reports and the one-page brief live in the console repository:</p>
+      <p class="qr-url" style="font-size:.78rem;">https://github.com/FBerthommier/covtl-console/tree/main/docs</p>
+      <p style="margin:.3rem 0 0;"><a class="plain" href="https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md">One-page brief</a> ·
+         <a class="plain" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/user-manual">User manual</a> ·
+         <a class="plain" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/tech-manual">Technical manual</a></p>
     </div>
   </div>
 
   <div class="pip">
-    <h2 style="margin:.1rem 0 .5rem; font-size:1.15rem;">Python users — one command</h2>
-    <p>Unzip the archive, run <code>covtl-console.exe</code>
-       (Windows) or <code>./covtl-console</code> (Linux) and open
+    <h2>Python users — one command</h2>
+    <p>Unzip the archive, run <code>covtl-console.exe</code> (Windows),
+       <code>./covtl-console</code> (Linux) or open
+       <code>COVTL Console.app</code> (macOS), and open
        <code>http://127.0.0.1:8421</code> in your browser.</p>
     <p>Or, with Python 3.9+ already installed:</p>
     <code>pip install covtl</code>
     <p style="margin:.6rem 0 0;">Then: <code>vtl-synth run "this is easy for us" -o out</code>
        — or <code>covtl-console</code> for the same web interface.</p>
+    <p style="margin:.4rem 0 0; font-size:.85rem; color:#555;">The engine follows the
+       active profile language (fr by default on a fresh install) — add
+       <code>-l en</code> for the English pronunciation.</p>
+  </div>
+
+  <div class="pip verify">
+    <h2>Verify your download</h2>
+    <p>Check the SHA-256 of the file you downloaded against these values:</p>
+    <p class="sha">Windows&nbsp; 36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</p>
+    <p class="sha">Linux&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</p>
+    <p class="sha">macOS&nbsp;&nbsp;&nbsp;&nbsp; 810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2</p>
+    <pre>certutil -SHA256 COVTL-Console-Windows-x64.zip        (Windows)
+sha256sum COVTL-Console-Linux-x64.zip                 (Linux)
+shasum -a 256 COVTL-Console-macOS.zip                 (macOS)</pre>
+    <p style="margin:.8rem 0 .2rem;">Each release asset also carries a
+       <strong>Sigstore build-provenance attestation</strong> signed by the
+       project's GitHub CI — verify it independently of the download channel
+       (<code>gh</code> ≥ 2.46):</p>
+    <pre>gh attestation verify COVTL-Console-Windows-x64.zip -R FBerthommier/covtl-console
+gh attestation verify COVTL-Console-Linux-x64.zip    -R FBerthommier/covtl-console
+gh attestation verify COVTL-Console-macOS.zip        -R FBerthommier/covtl-console</pre>
   </div>
 
   <p style="text-align:center;">
     <a class="plain" href="https://github.com/FBerthommier/covtl-pipeline">GitHub (engine)</a> ·
     <a class="plain" href="https://github.com/FBerthommier/covtl-console">GitHub (console)</a> ·
+    <a class="plain" href="https://github.com/FBerthommier/covtl-console/releases">Releases</a> ·
     <a class="plain" href="https://pypi.org/project/covtl/">PyPI</a> ·
     <a class="plain" href="https://pypi.org/project/covtl-synth/">covtl-synth</a>
   </p>
