@@ -13,6 +13,12 @@
   header { padding:3rem 1rem 2rem; text-align:center; }
   header h1 { margin:0 0 .3rem; font-size:2.2rem; letter-spacing:.5px; }
   header p { margin:.2rem auto; max-width:46rem; color:#444; }
+  .tagline { font-size:1.35rem; line-height:1.4; font-weight:600;
+             margin:.8rem auto .35rem; }
+  .cta { font-size:1.12rem; color:#222; }
+  .cta code { background:#eef1f4; padding:.2rem .45rem; border-radius:6px; }
+  .lead { font-size:.95rem; color:#555; margin-top:.5rem; }
+  .fr { font-size:.85rem; color:#777; }
   main { max-width:62rem; margin:0 auto; padding:0 1rem 3rem; }
   .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
            gap:1.2rem; margin:1.5rem 0; }
@@ -47,20 +53,24 @@
   .verify h2, .pip h2 { margin:.1rem 0 .5rem; font-size:1.15rem; }
   footer { text-align:center; padding:2rem 1rem; color:#666; font-size:.85rem; }
   a.plain { color:var(--accent); }
-  @media (max-width:640px) { header h1 { font-size:1.6rem; } }
+  @media (max-width:640px) { header h1 { font-size:1.6rem; }
+    .tagline { font-size:1.15rem; } .cta { font-size:1rem; } }
 </style>
 </head>
 <body>
 <header>
   <h1>COVTL</h1>
-  <p>Articulatory speech synthesis from text — the Berthommier COVTL model
-     driving <strong>VocalTractLab</strong>. 5 speakers, 6 languages,
-     expressive prosody, phonation modes (breathy / creaky / whisper),
-     cross-word sandhi, polar video.</p>
-  <p><strong>Free standalone console for Windows, Linux and macOS</strong> —
-     or one pip command. 100% local: no cloud, no account, no telemetry.</p>
-  <p><em>Synthèse articulatoire de parole à partir du texte — console
-     gratuite, sans installation.</em></p>
+  <p class="tagline">Type text. <strong>Hear it.</strong> Watch a human
+     vocal tract say it — tongue, jaw and lips computed for every phone.</p>
+  <p class="cta">Free standalone console for <strong>Windows, Linux and
+     macOS</strong> — or one <code>pip install covtl</code>. 100% local:
+     no cloud, no account, no telemetry.</p>
+  <p class="lead">Articulatory speech synthesis — the Berthommier COVTL
+     model driving <strong>VocalTractLab</strong>. 5 speakers, 6 languages,
+     expressive prosody, breathy / creaky / whisper, cross-word sandhi,
+     polar video.</p>
+  <p class="fr"><em>Synthèse articulatoire de parole à partir du texte —
+     console gratuite, sans installation.</em></p>
 </header>
 
 <main>
