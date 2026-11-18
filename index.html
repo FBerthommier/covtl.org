@@ -33,11 +33,14 @@
          padding:1.3rem; margin:1.5rem 0; }
   .pip code { background:#eef1f4; padding:.35rem .6rem; border-radius:6px;
               font-size:1rem; }
-  .docstrip { display:flex; gap:1.4rem; align-items:center; flex-wrap:wrap;
+  .docstrip { display:flex; flex-direction:column; align-items:center;
+              text-align:center;
               background:var(--card); border:1px solid #e2e2de; border-radius:12px;
               padding:1.3rem; margin:1.5rem 0; }
-  .docstrip .qrbox { flex:0 0 auto; text-align:center; }
+  .docstrip .qrbox { display:block; }
+  .docstrip .qrbox .qr-url { max-width:320px; margin:.35rem auto 0; }
   .docstrip img { width:150px; height:150px; }
+  .docstrip .txt { margin-top:.6rem; }
   .docstrip .txt { flex:1 1 260px; }
   .verify pre { background:#111; color:#eee; padding:.9rem 1rem; border-radius:8px;
                 overflow-x:auto; font-size:.78rem; line-height:1.7; margin:.4rem 0; }
@@ -112,8 +115,8 @@
     <div class="txt">
       <h2 style="margin:.1rem 0 .4rem; font-size:1.15rem;">Documentation — user &amp; technical manuals</h2>
       <p style="margin:.2rem 0; font-size:.9rem; color:#555;">Full manuals, validation
-         reports and the one-page brief live in the console repository:</p>
-      <p class="qr-url" style="font-size:.78rem;">https://github.com/FBerthommier/covtl-console/tree/main/docs</p>
+         reports and the one-page brief (installation paths hub) live in the
+         console repository.</p>
       <p style="margin:.3rem 0 0;"><a class="plain" href="https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md">One-page brief</a> ·
          <a class="plain" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/user-manual">User manual</a> ·
          <a class="plain" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/tech-manual">Technical manual</a></p>
