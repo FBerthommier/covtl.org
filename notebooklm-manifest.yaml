@@ -23,7 +23,7 @@
 
 manifest_version: 1
 site: https://covtl.org
-notebook_url: ""   # reserved: public share link of the COVTL NotebookLM notebook (not created yet)
+notebook_url: "https://notebook.google.com/notebook/5c49b342-38ea-41cc-babe-0c24d9b041c0"
 drive_folder: NotebookLM-Corpus/
 
 documents:
