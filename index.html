@@ -5,157 +5,530 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>COVTL — articulatory speech synthesis from text</title>
 <meta name="description" content="COVTL: articulatory speech synthesis (Berthommier COVTL model + VocalTractLab). Free standalone console for Windows, Linux and macOS, or pip install covtl.">
+<meta name="color-scheme" content="light dark">
 <style>
-  :root { --ink:#111; --bg:#f7f7f5; --card:#fff; --accent:#0b5fd0; --ok:#0a7d38; }
+  :root {
+    --ink:#16181d; --muted:#5a6472; --bg:#f4f6f8; --bg2:#eef1f5;
+    --card:#ffffff; --line:#dfe3e9; --code-bg:#eceff3;
+    --accent:#0b5fd0; --accent-strong:#084bad; --accent-ink:#ffffff;
+    --teal:#0e7490; --teal-soft:#e0f2f7;
+    --ok:#0a7d38; --shadow:0 1px 2px rgba(20,30,50,.05),0 6px 18px rgba(20,30,50,.06);
+    --shadow-lift:0 2px 4px rgba(20,30,50,.07),0 10px 28px rgba(20,30,50,.10);
+    --polar-ink:#8a93a3; --polar-v:#d9443c; --polar-c:#4a7fc1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink:#e8eaf0; --muted:#9aa3b2; --bg:#0f1319; --bg2:#141a22;
+      --card:#171d27; --line:#2a3240; --code-bg:#232b38;
+      --accent:#3d8bff; --accent-strong:#5c9dff; --accent-ink:#0b1220;
+      --teal:#2dd4bf; --teal-soft:#12333a;
+      --ok:#34d399; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);
+      --shadow-lift:0 2px 5px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.45);
+      --polar-ink:#5c6778; --polar-v:#e0524a; --polar-c:#5a8fd8;
+    }
+  }
+  html[data-theme="light"] { color-scheme: light; }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --ink:#e8eaf0; --muted:#9aa3b2; --bg:#0f1319; --bg2:#141a22;
+    --card:#171d27; --line:#2a3240; --code-bg:#232b38;
+    --accent:#3d8bff; --accent-strong:#5c9dff; --accent-ink:#0b1220;
+    --teal:#2dd4bf; --teal-soft:#12333a;
+    --ok:#34d399; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);
+    --shadow-lift:0 2px 5px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.45);
+    --polar-ink:#5c6778; --polar-v:#e0524a; --polar-c:#5a8fd8;
+  }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-         color:var(--ink); background:var(--bg); line-height:1.55; }
-  header { padding:3rem 1rem 2rem; text-align:center; }
-  header h1 { margin:0 0 .3rem; font-size:2.2rem; letter-spacing:.5px; }
-  header p { margin:.2rem auto; max-width:46rem; color:#444; }
-  .tagline { font-size:1.35rem; line-height:1.4; font-weight:600;
-             margin:.8rem auto .35rem; }
-  .cta { font-size:1.12rem; color:#222; }
-  .cta code { background:#eef1f4; padding:.2rem .45rem; border-radius:6px; }
-  .lead { font-size:1rem; color:#444; margin-top:.6rem; }
-  .fr { font-size:1rem; color:#444; }
-  main { max-width:62rem; margin:0 auto; padding:0 1rem 3rem; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-           gap:1.2rem; margin:1.5rem 0; }
-  .card { background:var(--card); border:1px solid #e2e2de; border-radius:12px;
-          padding:1.3rem; text-align:center; }
-  .card img { width:150px; height:150px; }
-  .card h2 { margin:.2rem 0 .4rem; font-size:1.15rem; }
-  .card p { margin:.2rem 0; font-size:.9rem; color:#555; }
-  .btn { display:inline-block; margin:.5rem .2rem .2rem; padding:.7rem 1.2rem;
-         background:var(--accent); color:#fff; text-decoration:none;
-         border-radius:8px; font-weight:600; }
-  .btn:hover { filter:brightness(1.1); }
-  .sha { font-family:ui-monospace,Consolas,monospace; font-size:.72rem;
-         color:#777; word-break:break-all; }
-  .qr-url { font-family:ui-monospace,Consolas,monospace; font-size:.68rem;
-            color:#555; word-break:break-all; margin:.3rem 0 .1rem; }
-  .pip { background:var(--card); border:1px solid #e2e2de; border-radius:12px;
-         padding:1.3rem; margin:1.5rem 0; }
-  .pip code { background:#eef1f4; padding:.35rem .6rem; border-radius:6px;
-              font-size:1rem; }
-  .docstrip { display:flex; flex-direction:column; align-items:center;
-              text-align:center;
-              background:var(--card); border:1px solid #e2e2de; border-radius:12px;
-              padding:1.3rem; margin:1.5rem 0; }
-  .docstrip .qrbox { display:block; }
+  .ic { width:1.25rem; height:1.25rem; flex:none; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+              "Helvetica Neue", Arial, sans-serif;
+    color:var(--ink); background:var(--bg); line-height:1.6;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap { max-width:72rem; margin:0 auto; padding:0 1.25rem; }
+
+  /* ---------- Header / hero ---------- */
+  header {
+    padding:4.2rem 1rem 2.6rem; text-align:center;
+    background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  header h1 {
+    margin:0 0 .4rem; font-size:clamp(2.6rem, 7vw, 4rem); font-weight:800;
+    letter-spacing:.04em; line-height:1.1;
+  }
+  .hero-grid { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:1.5rem 2.5rem; }
+  .hero-text { flex:1 1 340px; max-width:46rem; }
+  /* 4 mini-diagrammes polaires (ρ, θ) — ko · vé · té · el */
+  .polar-wrap {
+    flex:0 1 270px;
+    display:grid; grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:.15rem .6rem; align-content:center;
+  }
+  .polar-cell { text-align:center; }
+  .polar-mini { width:100%; max-width:118px; height:auto; display:block; margin:0 auto; }
+  .pol-label {
+    display:block; font-family:ui-monospace, Consolas, monospace;
+    font-size:.82rem; color:var(--muted); margin-top:.15rem;
+  }
+  .pol-notation {
+    display:block; font-family:ui-monospace, Consolas, monospace;
+    font-size:.62rem; color:var(--muted); opacity:.8; line-height:1.3;
+    margin-top:-.05rem;
+  }
+  .polar-legend {
+    grid-column:1 / -1; margin:.4rem 0 0; font-size:.74rem; color:var(--muted);
+    display:flex; align-items:center; justify-content:center; gap:.45rem;
+  }
+  .polar-cap {
+    grid-column:1 / -1; margin:.15rem 0 0; font-size:.68rem; color:var(--muted);
+    opacity:.85; text-align:center;
+  }
+  .polar-cap code {
+    background:var(--code-bg); padding:.05rem .3rem; border-radius:4px;
+    font-size:.95em;
+  }
+  .sw { display:inline-block; width:1.1rem; border-top:3px solid; border-radius:2px; }
+  .sw-v { border-color:var(--polar-v); }
+  .sw-c { border-color:var(--polar-c); }
+  .tagline { font-size:clamp(1.2rem, 3.2vw, 1.45rem); line-height:1.45;
+             font-weight:600; margin:.9rem auto .5rem; }
+  .badges { display:flex; flex-wrap:wrap; gap:.45rem; justify-content:center;
+            margin:1.1rem auto .9rem; }
+  .badge {
+    display:inline-flex; align-items:center; gap:.35rem;
+    font-size:.78rem; font-weight:600; letter-spacing:.02em;
+    padding:.28rem .7rem; border-radius:999px;
+    background:var(--teal-soft); color:var(--teal); border:1px solid color-mix(in srgb, var(--teal) 25%, transparent);
+    white-space:nowrap;
+  }
+  .badge-hero {
+    background:transparent; color:var(--muted);
+    border:1px solid var(--line);
+  }
+  .cta { font-size:1.1rem; color:var(--ink); }
+  .cta code, .pip code, .sha-box code {
+    background:var(--code-bg); padding:.15rem .45rem; border-radius:6px;
+    font-size:.92em;
+  }
+  .lead { font-size:1rem; color:var(--muted); margin-top:.7rem; }
+  .fr { font-size:.95rem; color:var(--muted); font-style:italic; margin-top:.5rem; }
+
+  /* ---------- Section titles ---------- */
+  .sec {
+    margin:3rem auto 1rem; display:flex; align-items:center; gap:.6rem;
+    justify-content:center; text-align:center; color:var(--ink);
+  }
+  .sec .ic { color:var(--teal); width:1.45rem; height:1.45rem; }
+  .sec h2 { margin:0; font-size:1.35rem; font-weight:700; }
+  .sec::before, .sec::after {
+    content:""; flex:1; max-width:9rem; height:1px; background:var(--line);
+  }
+  .sub-note { text-align:center; font-size:.85rem; color:var(--muted);
+              max-width:46rem; margin:0 auto 1.2rem; }
+
+  /* ---------- OS cards ---------- */
+  .cards {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:1.4rem; margin:1.6rem 0;
+  }
+  .card {
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.6rem 1.4rem 1.4rem; text-align:center;
+    box-shadow:var(--shadow);
+    transition:box-shadow .18s ease, transform .18s ease;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .card:hover { box-shadow:var(--shadow-lift); transform:translateY(-2px); }
+  .os-head { display:flex; align-items:center; gap:.55rem; margin:.1rem 0 .3rem; }
+  .os-head .ic { width:1.5rem; height:1.5rem; color:var(--muted); flex:none; }
+  .card h2 { margin:0; font-size:1.15rem; font-weight:700; }
+  .card .size { margin:.15rem 0 .8rem; font-size:.88rem; color:var(--muted); }
+  .qr-frame {
+    background:#fff; padding:.55rem; border-radius:12px;
+    border:1px solid var(--line); box-shadow:var(--shadow);
+    margin:.2rem auto .45rem;
+  }
+  .qr-frame img { display:block; width:100%; max-width:240px; height:auto; }
+  .qr-label {
+    display:flex; align-items:center; justify-content:center; gap:.35rem;
+    font-size:.78rem; color:var(--muted); margin-bottom:.7rem;
+  }
+  .qr-label .ic { width:1.1rem; height:1.1rem; }
+  .qr-url {
+    font-family:ui-monospace, Consolas, "SF Mono", Menlo, monospace;
+    font-size:.68rem; color:var(--muted); word-break:break-all;
+    margin:.3rem 0 .1rem; text-align:center;
+  }
+  .btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    margin:.45rem 0 .55rem; padding:.8rem 1.4rem; width:100%;
+    background:var(--accent); color:var(--accent-ink); text-decoration:none;
+    border-radius:10px; font-weight:600; font-size:1rem;
+    box-shadow:0 1px 2px rgba(9,30,66,.18);
+    transition:background .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .btn .ic { width:1.25rem; height:1.25rem; }
+  .btn:hover { background:var(--accent-strong); box-shadow:var(--shadow-lift); transform:translateY(-1px); }
+  .btn:focus-visible, a:focus-visible, button:focus-visible {
+    outline:3px solid var(--accent); outline-offset:2px; border-radius:6px;
+  }
+  .card .note { margin:.2rem 0; font-size:.85rem; color:var(--muted); }
+  .sha {
+    font-family:ui-monospace, Consolas, "SF Mono", Menlo, monospace;
+    font-size:.72rem; color:var(--muted); word-break:break-all;
+    background:var(--code-bg); border-radius:8px; padding:.45rem .6rem;
+    width:100%; text-align:left;
+  }
+  .sha b { font-weight:700; }
+
+  /* ---------- Documentation strip ---------- */
+  .docstrip {
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:1.6rem; text-align:left;
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.6rem; margin:1.6rem 0; box-shadow:var(--shadow);
+  }
+  .docstrip .qrbox { text-align:center; }
+  .docstrip .qrbox img { width:208px; height:208px; border-radius:10px; }
   .docstrip .qrbox .qr-url { max-width:320px; margin:.35rem auto 0; }
-  .docstrip img { width:150px; height:150px; }
-  .docstrip .txt { margin-top:.6rem; }
-  .docstrip .txt { flex:1 1 260px; }
-  .verify pre { background:#111; color:#eee; padding:.9rem 1rem; border-radius:8px;
-                overflow-x:auto; font-size:.78rem; line-height:1.7; margin:.4rem 0; }
-  .verify h2, .pip h2 { margin:.1rem 0 .5rem; font-size:1.15rem; }
-  footer { text-align:center; padding:2rem 1rem; color:#666; font-size:.85rem; }
-  a.plain { color:var(--accent); }
-  @media (max-width:640px) { header h1 { font-size:1.6rem; }
-    .tagline { font-size:1.15rem; } .cta { font-size:1rem; }
-    .lead, .fr { font-size:.95rem; } }
+  .docstrip .txt { flex:1 1 300px; max-width:34rem; }
+  .docstrip h2 { margin:.1rem 0 .5rem; font-size:1.15rem; font-weight:700; }
+  .docstrip p { margin:.2rem 0; font-size:.9rem; color:var(--muted); }
+  .doclinks { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.8rem; }
+  .doclink {
+    display:inline-flex; align-items:center; gap:.45rem;
+    padding:.5rem .95rem; border-radius:10px; font-size:.9rem; font-weight:600;
+    color:var(--accent); text-decoration:none;
+    background:var(--code-bg); border:1px solid var(--line);
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .doclink .ic { width:1.15rem; height:1.15rem; }
+  .doclink:hover { border-color:var(--accent); background:color-mix(in srgb, var(--accent) 8%, var(--card)); }
+  .doclink .pending-tag { font-weight:400; font-size:.72rem; opacity:.75; }
+  .doclink[data-pending] {
+    color:var(--muted); border-style:dashed; cursor:not-allowed; opacity:.75;
+  }
+  .doclink[data-pending]:hover { border-color:var(--line); background:var(--code-bg); }
+
+  /* ---------- Python / verify ---------- */
+  .panel {
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.6rem; margin:1.6rem 0; box-shadow:var(--shadow);
+  }
+  .panel h2 { margin:.1rem 0 .6rem; font-size:1.2rem; font-weight:700;
+              display:flex; align-items:center; gap:.55rem; }
+  .panel h2 .ic { width:1.35rem; height:1.35rem; color:var(--teal); }
+  .pip p { margin:.45rem 0; }
+  .pip .cmd { display:inline-block; background:var(--code-bg); padding:.4rem .7rem;
+              border-radius:8px; font-size:.95rem;
+              font-family:ui-monospace, Consolas, monospace; }
+  .pip .hint { font-size:.85rem; color:var(--muted); }
+
+  .verify .sha-box {
+    background:var(--code-bg); border:1px solid var(--line); border-radius:12px;
+    padding:.8rem 1rem; margin:.5rem 0;
+  }
+  .sha-row { display:flex; align-items:center; gap:.7rem; margin:.35rem 0; }
+  .sha-row .label { flex:none; width:4.6rem; font-weight:600; font-size:.8rem;
+                    color:var(--muted); }
+  .sha-row code {
+    flex:1; font-family:ui-monospace, Consolas, monospace; font-size:.74rem;
+    word-break:break-all; color:var(--ink);
+  }
+  .copy-btn {
+    flex:none; display:inline-flex; align-items:center; justify-content:center;
+    width:2rem; height:2rem; border-radius:8px; border:1px solid var(--line);
+    background:var(--card); color:var(--muted); cursor:pointer;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .copy-btn .ic { width:1rem; height:1rem; }
+  .copy-btn:hover { color:var(--accent); border-color:var(--accent); }
+  .copy-btn.copied { color:var(--ok); border-color:var(--ok); }
+  .copy-btn.copied .ic { color:var(--ok); }
+  .verify pre {
+    background:var(--code-bg); color:var(--ink); padding:.9rem 1rem;
+    border:1px solid var(--line); border-radius:10px;
+    overflow-x:auto; font-size:.78rem; line-height:1.7; margin:.5rem 0;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer-links {
+    display:flex; flex-wrap:wrap; gap:.4rem 1.2rem; justify-content:center;
+    margin:2.2rem auto .4rem; font-size:.92rem;
+  }
+  a.plain { color:var(--accent); font-weight:600; }
+  a.plain:hover { text-decoration:underline; }
+  footer {
+    text-align:center; padding:2rem 1rem 2.6rem; color:var(--muted);
+    font-size:.85rem; border-top:1px solid var(--line); margin-top:2.5rem;
+  }
+
+  /* ---------- Theme toggle ---------- */
+  .theme-toggle {
+    position:fixed; top:.9rem; right:.9rem; z-index:50;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:2.5rem; height:2.5rem; border-radius:999px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink);
+    cursor:pointer; box-shadow:var(--shadow);
+    font-size:1.05rem; line-height:1;
+  }
+  .theme-toggle:hover { border-color:var(--accent); }
+  .theme-toggle:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+
+  /* Téléphone : vue informative — les boutons d'import sont masqués ≤ 640 px */
+  .mobile-note { display:none; }
+
+  @media (max-width:640px) {
+    header { padding:3.2rem .8rem 2rem; }
+    .polar-wrap { order:-1; flex:1 1 100%; max-width:280px; margin:0 auto 1.2rem; }
+    .polar-mini { max-width:104px; }
+    .sec h2 { font-size:1.15rem; }
+    .card .btn { display:none; }
+    .mobile-note {
+      display:block; margin:.4rem 0 .2rem; font-size:.8rem;
+      color:var(--muted); font-style:italic;
+    }
+    .qr-frame img { max-width:150px; }
+    .docstrip .qrbox img { width:140px; height:140px; }
+    .docstrip { flex-direction:column; text-align:center; }
+    .docstrip .txt { text-align:center; }
+    .doclinks { justify-content:center; }
+    .sha-row { flex-wrap:wrap; }
+    .sha-row .label { width:100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition:none !important; animation:none !important; }
+    html { scroll-behavior:auto; }
+  }
 </style>
 </head>
 <body>
+<button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark theme">🌓</button>
+
 <header>
-  <h1>COVTL</h1>
-  <p class="tagline">Type text. <strong>Hear it.</strong> Watch a human
-     vocal tract say it — tongue, jaw and lips coordinated at the
-     syllabic level.</p>
-  <p class="cta">Free standalone console for <strong>Windows, Linux and
-     macOS</strong> — or one <code>pip install covtl</code>. 100% local:
-     no cloud, no account, no telemetry.</p>
-  <p class="lead">Articulatory speech synthesis — the Berthommier COVTL
-     model driving <strong>VocalTractLab</strong>. 5 speakers, 6 languages,
-     expressive prosody, breathy / creaky / whisper, cross-word sandhi,
-     polar video.</p>
-  <p class="fr"><em>Articulatory speech synthesis from text — a free,
-     install-free console.</em></p>
+  <div class="wrap">
+    <h1>COVTL</h1>
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="tagline">Type text. <strong>Hear it.</strong> Watch a human
+           vocal tract say it — tongue, jaw and lips coordinated at the
+           syllabic level.</p>
+        <div class="badges" role="list" aria-label="Key features">
+          <span class="badge badge-hero" role="listitem">100% local · no cloud · no telemetry</span>
+          <span class="badge" role="listitem">5 speakers</span>
+          <span class="badge" role="listitem">6 languages</span>
+          <span class="badge" role="listitem">expressive prosody</span>
+          <span class="badge" role="listitem">breathy / creaky / whisper</span>
+          <span class="badge" role="listitem">cross-word sandhi</span>
+          <span class="badge" role="listitem">polar video</span>
+        </div>
+        <p class="cta">Free standalone console for <strong>Windows, Linux and
+           macOS</strong> — or one <code>pip install covtl</code>.</p>
+        <p class="lead">Articulatory speech synthesis — the Berthommier COVTL
+           model driving <strong>VocalTractLab</strong>.</p>
+        <p class="fr"><em>Articulatory speech synthesis from text — a free,
+           install-free console.</em></p>
+      </div>
+      <div class="polar-wrap"><div class="polar-cell">
+  <svg class="polar-mini" viewBox="0 0 100 100" role="img"
+       aria-label="Console polar segment o*·k·o (rho, theta):
+                  red vocalic branch, blue consonantal branch">
+    <title>COVTL console segment « o*·k·o » — vocalic
+(red) + consonantal (blue) branch, phonetic mode, speaker JD3</title>
+    <g fill="none" stroke="var(--polar-ink)" stroke-width="0.8" opacity="0.5">
+      <circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="20"/>
+      <circle cx="50" cy="50" r="30"/><line x1="50" y1="50" x2="50.0" y2="10.0"/><line x1="50" y1="50" x2="78.3" y2="21.7"/><line x1="50" y1="50" x2="90.0" y2="50.0"/><line x1="50" y1="50" x2="78.3" y2="78.3"/><line x1="50" y1="50" x2="50.0" y2="90.0"/><line x1="50" y1="50" x2="21.7" y2="78.3"/><line x1="50" y1="50" x2="10.0" y2="50.0"/><line x1="50" y1="50" x2="21.7" y2="21.7"/>
+    </g>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--polar-ink)"
+            stroke-width="0.9" stroke-dasharray="3 4" opacity="0.65"/>
+    <path d="M46.50,36.66 Q46.42,36.49 46.37,36.38 Q46.33,36.28 46.26,36.13 Q46.19,35.99 46.11,35.80 Q46.03,35.62 45.94,35.39 Q45.84,35.17 45.74,34.92 Q45.64,34.66 45.52,34.37 Q45.41,34.09 45.29,33.77 Q45.17,33.46 45.05,33.12 Q44.92,32.78 44.80,32.43 Q44.67,32.07 44.55,31.70 Q44.42,31.33 44.30,30.95 Q44.18,30.57 44.07,30.19 Q43.95,29.80 43.84,29.42 Q43.73,29.03 43.63,28.66 Q43.53,28.28 43.44,27.91 Q43.34,27.55 43.27,27.20 Q43.19,26.84 43.12,26.51 Q43.05,26.18 43.00,25.88 Q42.95,25.58 42.91,25.30 Q42.87,25.03 42.85,24.78 Q42.82,24.54 42.82,24.33 Q42.81,24.13 42.81,23.96 Q42.81,23.80 42.83,23.67 Q42.85,23.55 42.89,23.47 L42.92,23.39" fill="none" stroke="var(--polar-v)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M46.95,36.45 Q47.68,35.98 48.18,35.62 Q48.68,35.27 49.30,34.79 Q49.92,34.31 50.66,33.72 Q51.39,33.13 52.22,32.44 Q53.06,31.74 53.97,30.94 Q54.89,30.15 55.88,29.27 Q56.87,28.38 57.92,27.42 Q58.96,26.46 60.05,25.43 Q61.13,24.41 62.24,23.33 Q63.35,22.24 64.47,21.12 Q65.59,20.00 66.70,18.85 Q67.82,17.70 68.91,16.53 Q70.00,15.36 68.93,15.76 Q67.87,16.15 66.75,16.54 Q65.63,16.93 64.47,17.31 Q63.31,17.69 62.13,18.06 Q60.94,18.43 59.75,18.78 Q58.57,19.13 57.39,19.47 Q56.21,19.81 55.07,20.13 Q53.93,20.44 52.84,20.74 Q51.75,21.03 50.73,21.30 Q49.71,21.57 48.79,21.82 Q47.86,22.06 47.05,22.27 Q46.24,22.48 45.55,22.66 Q44.86,22.83 44.32,22.97 Q43.78,23.11 43.39,23.21 L43.01,23.31" fill="none" stroke="var(--polar-c)"
+          stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="46.50" cy="36.66" r="1.8" fill="var(--polar-ink)"/><circle cx="43.01" cy="23.31" r="1.8" fill="var(--polar-ink)"/>
+  </svg>
+  <span class="pol-label">ko</span>
+  <span class="pol-notation">o*·k·o</span>
+</div><div class="polar-cell">
+  <svg class="polar-mini" viewBox="0 0 100 100" role="img"
+       aria-label="Console polar segment o·v·e (rho, theta):
+                  red vocalic branch, blue consonantal branch">
+    <title>COVTL console segment « o·v·e » — vocalic
+(red) + consonantal (blue) branch, phonetic mode, speaker JD3</title>
+    <g fill="none" stroke="var(--polar-ink)" stroke-width="0.8" opacity="0.5">
+      <circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="20"/>
+      <circle cx="50" cy="50" r="30"/><line x1="50" y1="50" x2="50.0" y2="10.0"/><line x1="50" y1="50" x2="78.3" y2="21.7"/><line x1="50" y1="50" x2="90.0" y2="50.0"/><line x1="50" y1="50" x2="78.3" y2="78.3"/><line x1="50" y1="50" x2="50.0" y2="90.0"/><line x1="50" y1="50" x2="21.7" y2="78.3"/><line x1="50" y1="50" x2="10.0" y2="50.0"/><line x1="50" y1="50" x2="21.7" y2="21.7"/>
+    </g>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--polar-ink)"
+            stroke-width="0.9" stroke-dasharray="3 4" opacity="0.65"/>
+    <path d="M43.01,23.31 Q43.03,23.50 43.06,23.77 Q43.09,24.04 43.14,24.49 Q43.19,24.94 43.25,25.56 Q43.32,26.18 43.40,26.97 Q43.48,27.75 43.57,28.68 Q43.67,29.62 43.77,30.70 Q43.88,31.77 43.99,32.97 Q44.10,34.17 44.22,35.48 Q44.34,36.79 44.46,38.19 Q44.58,39.58 44.71,41.06 Q44.83,42.53 44.95,44.05 Q45.07,45.57 45.19,47.12 Q45.31,48.68 45.43,50.24 Q45.54,51.81 45.65,53.36 Q45.76,54.91 45.85,56.43 Q45.95,57.95 46.04,59.42 Q46.13,60.88 46.21,62.28 Q46.28,63.68 46.35,64.98 Q46.41,66.28 46.46,67.48 Q46.51,68.67 46.55,69.74 Q46.59,70.81 46.61,71.73 Q46.63,72.66 46.64,73.44 Q46.64,74.21 46.64,74.83 Q46.63,75.44 46.61,75.88 Q46.59,76.32 46.56,76.59 Q46.52,76.85 46.48,76.94 L46.43,77.02" fill="none" stroke="var(--polar-v)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M43.84,23.36 Q45.14,23.80 46.00,24.22 Q46.86,24.64 47.92,25.26 Q48.97,25.87 50.20,26.67 Q51.43,27.47 52.81,28.45 Q54.19,29.43 55.70,30.57 Q57.21,31.71 58.82,33.00 Q60.43,34.29 62.12,35.72 Q63.81,37.14 65.55,38.67 Q67.29,40.21 69.06,41.83 Q70.82,43.46 72.58,45.15 Q74.35,46.84 76.09,48.58 Q77.83,50.32 79.52,52.07 Q81.21,53.83 78.84,55.01 Q76.47,56.19 74.18,57.38 Q71.90,58.57 69.74,59.75 Q67.58,60.93 65.57,62.10 Q63.55,63.26 61.71,64.38 Q59.86,65.50 58.21,66.56 Q56.55,67.62 55.11,68.61 Q53.66,69.60 52.43,70.50 Q51.21,71.39 50.21,72.19 Q49.22,72.98 48.46,73.66 Q47.70,74.34 47.19,74.89 Q46.67,75.44 46.40,75.85 Q46.12,76.26 46.08,76.52 Q46.04,76.79 46.24,76.91 L46.43,77.02" fill="none" stroke="var(--polar-c)"
+          stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="43.01" cy="23.31" r="1.8" fill="var(--polar-ink)"/><circle cx="46.43" cy="77.02" r="1.8" fill="var(--polar-ink)"/>
+  </svg>
+  <span class="pol-label">vé</span>
+  <span class="pol-notation">o·v·e</span>
+</div><div class="polar-cell">
+  <svg class="polar-mini" viewBox="0 0 100 100" role="img"
+       aria-label="Console polar segment e·t·e (rho, theta):
+                  red vocalic branch, blue consonantal branch">
+    <title>COVTL console segment « e·t·e » — vocalic
+(red) + consonantal (blue) branch, phonetic mode, speaker JD3</title>
+    <g fill="none" stroke="var(--polar-ink)" stroke-width="0.8" opacity="0.5">
+      <circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="20"/>
+      <circle cx="50" cy="50" r="30"/><line x1="50" y1="50" x2="50.0" y2="10.0"/><line x1="50" y1="50" x2="78.3" y2="21.7"/><line x1="50" y1="50" x2="90.0" y2="50.0"/><line x1="50" y1="50" x2="78.3" y2="78.3"/><line x1="50" y1="50" x2="50.0" y2="90.0"/><line x1="50" y1="50" x2="21.7" y2="78.3"/><line x1="50" y1="50" x2="10.0" y2="50.0"/><line x1="50" y1="50" x2="21.7" y2="21.7"/>
+    </g>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--polar-ink)"
+            stroke-width="0.9" stroke-dasharray="3 4" opacity="0.65"/>
+    <circle cx="46.43" cy="77.02" r="3.0" fill="var(--polar-v)" stroke="none" opacity=".9"/>
+    <path d="M45.85,76.97 Q45.34,76.99 45.13,77.03 Q44.92,77.08 44.77,77.16 Q44.61,77.24 44.52,77.35 Q44.44,77.47 44.42,77.63 Q44.40,77.78 44.46,77.98 Q44.52,78.17 44.66,78.41 Q44.80,78.64 45.03,78.92 Q45.26,79.19 45.57,79.51 Q45.88,79.83 46.28,80.18 Q46.68,80.54 47.16,80.93 Q47.63,81.32 48.19,81.75 Q48.75,82.18 49.37,82.64 Q50.00,83.10 49.37,82.64 Q48.75,82.18 48.19,81.75 Q47.63,81.32 47.16,80.93 Q46.68,80.54 46.28,80.18 Q45.88,79.83 45.57,79.51 Q45.26,79.19 45.03,78.92 Q44.80,78.64 44.66,78.41 Q44.52,78.17 44.46,77.98 Q44.40,77.78 44.42,77.63 Q44.44,77.47 44.52,77.35 Q44.61,77.24 44.77,77.16 Q44.92,77.08 45.13,77.03 Q45.34,76.99 45.59,76.98 Q45.85,76.97 46.14,77.00 L46.43,77.02" fill="none" stroke="var(--polar-c)"
+          stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="46.43" cy="77.02" r="1.8" fill="var(--polar-ink)"/><circle cx="46.43" cy="77.02" r="1.8" fill="var(--polar-ink)"/>
+  </svg>
+  <span class="pol-label">té</span>
+  <span class="pol-notation">e·t·e</span>
+</div><div class="polar-cell">
+  <svg class="polar-mini" viewBox="0 0 100 100" role="img"
+       aria-label="Console polar segment E·l·E* (rho, theta):
+                  red vocalic branch, blue consonantal branch">
+    <title>COVTL console segment « E·l·E* » — vocalic
+(red) + consonantal (blue) branch, phonetic mode, speaker JD3</title>
+    <g fill="none" stroke="var(--polar-ink)" stroke-width="0.8" opacity="0.5">
+      <circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="20"/>
+      <circle cx="50" cy="50" r="30"/><line x1="50" y1="50" x2="50.0" y2="10.0"/><line x1="50" y1="50" x2="78.3" y2="21.7"/><line x1="50" y1="50" x2="90.0" y2="50.0"/><line x1="50" y1="50" x2="78.3" y2="78.3"/><line x1="50" y1="50" x2="50.0" y2="90.0"/><line x1="50" y1="50" x2="21.7" y2="78.3"/><line x1="50" y1="50" x2="10.0" y2="50.0"/><line x1="50" y1="50" x2="21.7" y2="21.7"/>
+    </g>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="var(--polar-ink)"
+            stroke-width="0.9" stroke-dasharray="3 4" opacity="0.65"/>
+    <path d="M35.05,56.70 Q35.28,56.62 35.37,56.59 Q35.46,56.56 35.58,56.52 Q35.69,56.48 35.82,56.43 Q35.96,56.38 36.11,56.32 Q36.27,56.27 36.44,56.20 Q36.61,56.14 36.79,56.07 Q36.98,55.99 37.18,55.92 Q37.38,55.84 37.58,55.75 Q37.79,55.67 38.01,55.58 Q38.22,55.49 38.44,55.40 Q38.66,55.31 38.88,55.22 Q39.10,55.13 39.31,55.03 Q39.53,54.94 39.74,54.84 Q39.95,54.75 40.16,54.66 Q40.36,54.56 40.55,54.47 Q40.75,54.38 40.92,54.30 Q41.10,54.21 41.27,54.13 Q41.43,54.05 41.58,53.97 Q41.72,53.90 41.84,53.83 Q41.97,53.76 42.07,53.70 Q42.18,53.64 42.26,53.59 Q42.34,53.54 42.42,53.46 L42.51,53.39" fill="none" stroke="var(--polar-v)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M35.19,56.30 Q35.93,55.78 36.60,55.46 Q37.26,55.14 38.21,54.78 Q39.16,54.42 40.39,54.03 Q41.61,53.63 43.10,53.20 Q44.58,52.78 46.31,52.34 Q48.04,51.90 49.99,51.44 Q51.94,50.99 54.08,50.54 Q56.23,50.09 58.54,49.65 Q60.85,49.20 63.31,48.78 Q65.76,48.35 68.32,47.95 Q70.88,47.55 73.51,47.18 Q76.14,46.80 78.81,46.47 Q81.49,46.13 79.27,46.41 Q77.05,46.68 74.87,46.98 Q72.68,47.27 70.55,47.58 Q68.42,47.88 66.38,48.19 Q64.34,48.51 62.41,48.82 Q60.48,49.14 58.69,49.45 Q56.90,49.77 55.26,50.07 Q53.63,50.38 52.18,50.68 Q50.73,50.97 49.47,51.24 Q48.22,51.52 47.18,51.77 Q46.14,52.02 45.33,52.24 Q44.51,52.47 43.94,52.65 Q43.36,52.84 43.03,52.99 Q42.70,53.14 42.61,53.24 L42.52,53.35" fill="none" stroke="var(--polar-c)"
+          stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="35.05" cy="56.70" r="1.8" fill="var(--polar-ink)"/><circle cx="42.52" cy="53.35" r="1.8" fill="var(--polar-ink)"/>
+  </svg>
+  <span class="pol-label">el</span>
+  <span class="pol-notation">E·l·E*</span>
+</div><p class="polar-legend"><span class="sw sw-v"></span>vocalic&nbsp;&nbsp;<span class="sw sw-c"></span>consonantal</p><p class="polar-cap">COVTL console, phonetic mode — <code>ko.ve.te.El</code> · speaker JD3</p></div>
+    </div>
+  </div>
 </header>
 
-<main>
-  <p style="text-align:center; font-size:.85rem; color:#666; margin:0 auto 1rem; max-width:46rem;">
-    Each card's QR code opens a <strong>platform-specific one-page brief</strong>
-    (requirements, install steps, first-run notes), readable on a phone —
-    never a 100&nbsp;MB download. To get a bundle, use the download buttons on
-    this page — and after scanning, check the address bar.
-  </p>
+<main class="wrap">
+  <div class="sec"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg><h2>Download the console</h2></div>
+  <p class="sub-note">Each card's QR code opens a <strong>platform-specific one-page brief</strong>
+     (requirements, install steps, first-run notes), readable on a phone —
+     never a 100&nbsp;MB download. The QR codes are displayed <strong>large on
+     purpose</strong>: scan one directly from your screen with a phone, or —
+     when this page is <strong>projected</strong> (talk, class, demo) — let the
+     room capture it from their seats. To get a bundle, use the download
+     buttons on this page — and after scanning, check the address bar.</p>
   <div class="cards">
     <div class="card">
-      <img src="qr-brief-windows.png" alt="QR code — open the Windows brief (mobile-readable)">
+      <div class="os-head"><svg class="ic ic-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M0,0H11.377V11.372H0ZM12.623,0H24V11.372H12.623ZM0,12.623H11.377V24H0Zm12.623,0H24V24H12.623Z"/></svg><h2>Windows 10/11 · x64</h2></div>
+      <p class="size">Standalone console, 122 MB (zip)</p>
+      <div class="qr-frame"><img src="qr-brief-windows.png" alt="QR code — open the Windows brief (mobile-readable)" width="168" height="168"></div>
+      <p class="qr-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="5" height="5" x="2" y="2" rx="1"/><rect width="5" height="5" x="17" y="2" rx="1"/><rect width="5" height="5" x="2" y="17" rx="1"/><path d="M7 4h1M4 7v1M17 4h1M20 7v1M7 19h1M4 16v1M14 7h-1M14 4h1M14 12v1M11 12h1M17 13h1M19 12h1M14 16v2M11 17h1M14 20h1M17 17h2M19 20v1M17 20h2v1"/></svg> Scan for install brief — screen or projection</p>
       <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/blob/main/docs/brief-windows.md</p>
-      <h2>Windows 10/11 · x64</h2>
-      <p>Standalone console, 122 MB (zip)</p>
-      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/windows-standalone/COVTL-Console-Windows-x64.zip">Download for Windows</a>
-      <p>The QR code opens a one-page brief in your phone's browser (no
-         100+ MB download) — use the button on this page to get the zip.
-         After scanning, read the address bar: official pages live on
-         <span class="qr-url">github.com/FBerthommier/…</span></p>
-      <p class="sha">sha256 36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</p>
+      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/windows-standalone/COVTL-Console-Windows-x64.zip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download for Windows</a>
+      <p class="mobile-note">Desktop-only download — open <strong>covtl.org</strong> on a computer to get the zip.</p>
+      <p class="note">The QR code opens a one-page brief in your phone's browser (no 100+ MB download) — scan it from the screen, or capture it when this page is projected. Use the button on this page to get the zip. After scanning, read the address bar: official pages live on <span class="qr-url">github.com/FBerthommier/…</span></p>
+      <p class="sha"><b>sha256</b> 36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</p>
     </div>
     <div class="card">
-      <img src="qr-brief-linux.png" alt="QR code — open the Linux brief (mobile-readable)">
+      <div class="os-head"><svg class="ic ic-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.26 2.287.174.602.407.834.94 1.352 1.005.513.067 1.5-.056 2.274-.613.68-.503 1.53-1.399 2.113-2.45.4-.612.613-1.172.665-1.31a.853.853 0 00.04-.164c-.628-.263-1.775-1.116-2.393-2.46-.667-1.453-.347-3.37.094-4.485-.358-.993-1.187-2.324-2.4-3.106-1.55-.998-3.629-1.358-4.377-1.17-.076-1.477.26-2.935 1.026-4.402A3.75 3.75 0 0112.504 0z" fill="currentColor"/></svg><h2>Linux · x64</h2></div>
+      <p class="size">Standalone console, 192 MB (zip)</p>
+      <div class="qr-frame"><img src="qr-brief-linux.png" alt="QR code — open the Linux brief (mobile-readable)" width="168" height="168"></div>
+      <p class="qr-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="5" height="5" x="2" y="2" rx="1"/><rect width="5" height="5" x="17" y="2" rx="1"/><rect width="5" height="5" x="2" y="17" rx="1"/><path d="M7 4h1M4 7v1M17 4h1M20 7v1M7 19h1M4 16v1M14 7h-1M14 4h1M14 12v1M11 12h1M17 13h1M19 12h1M14 16v2M11 17h1M14 20h1M17 17h2M19 20v1M17 20h2v1"/></svg> Scan for install brief — screen or projection</p>
       <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/blob/main/docs/brief-linux.md</p>
-      <h2>Linux · x64</h2>
-      <p>Standalone console, 192 MB (zip)</p>
-      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/linux-standalone/COVTL-Console-Linux-x64.zip">Download for Linux</a>
-      <p>The QR code opens a one-page brief in your phone's browser (no
-         100+ MB download) — use the button on this page to get the zip.
-         After scanning, read the address bar: official pages live on
-         <span class="qr-url">github.com/FBerthommier/…</span></p>
-      <p class="sha">sha256 32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</p>
+      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/linux-standalone/COVTL-Console-Linux-x64.zip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download for Linux</a>
+      <p class="mobile-note">Desktop-only download — open <strong>covtl.org</strong> on a computer to get the zip.</p>
+      <p class="note">The QR code opens a one-page brief in your phone's browser (no 100+ MB download) — scan it from the screen, or capture it when this page is projected. Use the button on this page to get the zip. After scanning, read the address bar: official pages live on <span class="qr-url">github.com/FBerthommier/…</span></p>
+      <p class="sha"><b>sha256</b> 32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</p>
     </div>
     <div class="card">
-      <img src="qr-brief-macos.png" alt="QR code — open the macOS brief (mobile-readable)">
+      <div class="os-head"><svg class="ic ic-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.2 3.855 1.317.042 2.672-.669 3.487-1.843z" fill="currentColor"/></svg><h2>macOS · Apple Silicon</h2></div>
+      <p class="size">Standalone console, 98 MB (zip)</p>
+      <div class="qr-frame"><img src="qr-brief-macos.png" alt="QR code — open the macOS brief (mobile-readable)" width="168" height="168"></div>
+      <p class="qr-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="5" height="5" x="2" y="2" rx="1"/><rect width="5" height="5" x="17" y="2" rx="1"/><rect width="5" height="5" x="2" y="17" rx="1"/><path d="M7 4h1M4 7v1M17 4h1M20 7v1M7 19h1M4 16v1M14 7h-1M14 4h1M14 12v1M11 12h1M17 13h1M19 12h1M14 16v2M11 17h1M14 20h1M17 17h2M19 20v1M17 20h2v1"/></svg> Scan for install brief — screen or projection</p>
       <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/blob/main/docs/brief-macos.md</p>
-      <h2>macOS · Apple Silicon</h2>
-      <p>Standalone console, 98 MB (zip)</p>
-      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/macos-standalone/COVTL-Console-macOS.zip">Download for macOS</a>
-      <p>Right-click the app &gt; Open the first time (unsigned build).
-         Requires macOS 11+, M1/M2/M3/M4.</p>
-      <p class="sha">sha256 810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2</p>
+      <a class="btn" href="https://github.com/FBerthommier/covtl-console/releases/download/macos-standalone/COVTL-Console-macOS.zip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Download for macOS</a>
+      <p class="mobile-note">Desktop-only download — open <strong>covtl.org</strong> on a computer to get the zip.</p>
+      <p class="note">Right-click the app &gt; Open the first time (unsigned build). Requires macOS 11+, M1/M2/M3/M4.</p>
+      <p class="sha"><b>sha256</b> 810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2</p>
     </div>
   </div>
 
+  <div class="sec"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg><h2>Documentation</h2></div>
   <div class="docstrip">
     <div class="qrbox">
-      <img src="qr-to-docs.png" alt="QR code — documentation folder">
+      <div class="qr-frame"><img src="qr-to-docs.png" alt="QR code — documentation folder" width="176" height="176"></div>
       <p class="qr-url">QR → https://github.com/FBerthommier/covtl-console/tree/main/docs</p>
     </div>
     <div class="txt">
-      <h2 style="margin:.1rem 0 .4rem; font-size:1.15rem;">Documentation — user &amp; technical manuals</h2>
-      <p style="margin:.2rem 0; font-size:.9rem; color:#555;">Full manuals, validation
-         reports and the one-page brief (installation paths hub) live in the
-         console repository.</p>
-      <p style="margin:.3rem 0 0;"><a class="plain" href="https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md">One-page brief</a> ·
-         <a class="plain" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/user-manual">User manual</a> ·
-         <a class="plain" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/tech-manual">Technical manual</a></p>
+      <h2>User &amp; technical manuals</h2>
+      <p>Full manuals, validation reports, the one-page brief (installation
+         paths hub) — and the <strong>NotebookLM notebook</strong> gathering
+         all the COVTL documentation in one queryable place.</p>
+      <div class="doclinks">
+        <a class="doclink" href="https://github.com/FBerthommier/covtl-console/blob/main/docs/brief.md"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>One-page brief</a>
+        <a class="doclink" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/user-manual"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>User manual</a>
+        <a class="doclink" href="https://github.com/FBerthommier/covtl-console/tree/main/docs/tech-manual"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Technical manual</a>
+        <!-- ============================================================
+             AGENT-INSTALLER TAG — action for this button (REQUIRED, Step 2b
+             of INSTALL.md):
+             This "NotebookLM" button must open the COVTL NotebookLM notebook
+             (all documentations in one place). Replace ONLY the two tagged
+             values below — keep everything else in this file untouched.
+             1. HREF-PLACEHOLDER  → set href="https://notebooklm.google.com/…"
+                (the public share link of the COVTL notebook)
+             2. remove the data-pending attribute
+             The button stays disabled (greyed out, non-clickable) until you
+             do this — that is how the site shows the action is not wired yet.
+             ============================================================ -->
+        <a class="doclink" id="notebooklm-link"
+           href="#notebooklm-pending" data-pending="true"
+           aria-disabled="true" title="NotebookLM notebook — link to be set by the site maintainer"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15.5 2H8.6c-.9 0-1.6.7-1.6 1.6v16.8c0 .9.7 1.6 1.6 1.6h6.9c.9 0 1.6-.7 1.6-1.6V3.6c0-.9-.7-1.6-1.6-1.6Z"/><path d="M10 6.5h4"/><path d="M12 17.5h.01"/><path d="M10.5 10.5h3"/><path d="M10.5 14h3"/></svg>NotebookLM
+        <span class="pending-tag">— set link</span></a>
+      </div>
     </div>
   </div>
 
-  <div class="pip">
-    <h2>Python users — one command</h2>
+  <div class="sec"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg><h2>Python users — one command</h2></div>
+  <div class="panel pip">
     <p>Unzip the archive, run <code>covtl-console.exe</code> (Windows),
        <code>./covtl-console</code> (Linux) or open
        <code>COVTL Console.app</code> (macOS), and open
        <code>http://127.0.0.1:8421</code> in your browser.</p>
     <p>Or, with Python 3.9+ already installed:</p>
-    <code>pip install covtl</code>
+    <code class="cmd">pip install covtl</code>
     <p style="margin:.6rem 0 0;">Then: <code>vtl-synth run "this is easy for us" -o out</code>
        — or <code>covtl-console</code> for the same web interface.</p>
-    <p style="margin:.4rem 0 0; font-size:.85rem; color:#555;">The engine follows the
-       active profile language (fr by default on a fresh install) — add
-       <code>-l en</code> for the English pronunciation.</p>
+    <p class="hint">The engine follows the active profile language (fr by
+       default on a fresh install) — add <code>-l en</code> for the English
+       pronunciation.</p>
   </div>
 
-  <div class="pip verify">
-    <h2>Verify your download</h2>
+  <div class="sec"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><h2>Verify your download</h2></div>
+  <div class="panel verify">
     <p>Check the SHA-256 of the file you downloaded against these values:</p>
-    <p class="sha">Windows&nbsp; 36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</p>
-    <p class="sha">Linux&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</p>
-    <p class="sha">macOS&nbsp;&nbsp;&nbsp;&nbsp; 810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2</p>
+    <div class="sha-box">
+      <div class="sha-row">
+        <span class="label">Windows</span>
+        <code id="sha-win">36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418</code>
+        <button class="copy-btn" type="button" data-copy="36e2e0223182fff2b09f4c5ac53c8a2be8370ef80fe2e72b7d98f6524155f418" aria-label="Copy Windows SHA-256"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="14" height="11" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="sha-row">
+        <span class="label">Linux</span>
+        <code id="sha-linux">32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33</code>
+        <button class="copy-btn" type="button" data-copy="32123d349027dc93df3aedf7dae1fc8f92fc42c552a040cb052d0162bbf03c33" aria-label="Copy Linux SHA-256"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="14" height="11" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="sha-row">
+        <span class="label">macOS</span>
+        <code id="sha-macos">810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2</code>
+        <button class="copy-btn" type="button" data-copy="810836e371eb9d4399a1224524e7163defe3593c5821616e7505f1233371d6f2" aria-label="Copy macOS SHA-256"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="14" height="11" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+    </div>
     <pre>certutil -SHA256 COVTL-Console-Windows-x64.zip        (Windows)
 sha256sum COVTL-Console-Linux-x64.zip                 (Linux)
 shasum -a 256 COVTL-Console-macOS.zip                 (macOS)</pre>
@@ -168,13 +541,13 @@ gh attestation verify COVTL-Console-Linux-x64.zip    -R FBerthommier/covtl-conso
 gh attestation verify COVTL-Console-macOS.zip        -R FBerthommier/covtl-console</pre>
   </div>
 
-  <p style="text-align:center;">
-    <a class="plain" href="https://github.com/FBerthommier/covtl-pipeline">GitHub (engine)</a> ·
-    <a class="plain" href="https://github.com/FBerthommier/covtl-console">GitHub (console)</a> ·
-    <a class="plain" href="https://github.com/FBerthommier/covtl-console/releases">Releases</a> ·
-    <a class="plain" href="https://pypi.org/project/covtl/">PyPI</a> ·
+  <div class="footer-links">
+    <a class="plain" href="https://github.com/FBerthommier/covtl-pipeline">GitHub (engine)</a>
+    <a class="plain" href="https://github.com/FBerthommier/covtl-console">GitHub (console)</a>
+    <a class="plain" href="https://github.com/FBerthommier/covtl-console/releases">Releases</a>
+    <a class="plain" href="https://pypi.org/project/covtl/">PyPI</a>
     <a class="plain" href="https://pypi.org/project/covtl-synth/">covtl-synth</a>
-  </p>
+  </div>
 </main>
 
 <footer>
@@ -182,5 +555,62 @@ gh attestation verify COVTL-Console-macOS.zip        -R FBerthommier/covtl-conso
   VocalTractLab (GPLv3). Downloads are rebuilt automatically for every
   release; the SHA-256 above matches the current build.
 </footer>
+
+<span id="ic-check" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>
+<script>
+(function () {
+  "use strict";
+  // --- Theme toggle (light / dark), respecte la préférence système par défaut
+  var root = document.documentElement;
+  var btn = document.getElementById("themeToggle");
+  var SUN = "\u2600\uFE0F", MOON = "\uD83C\uDF13";
+  function apply(mode) {
+    if (mode === "dark") { root.setAttribute("data-theme", "dark"); btn.textContent = SUN; btn.setAttribute("aria-label", "Switch to light theme"); }
+    else { root.setAttribute("data-theme", "light"); btn.textContent = MOON; btn.setAttribute("aria-label", "Switch to dark theme"); }
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("covtl-theme"); } catch (e) {}
+  var prefersDark = false;
+  try { prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
+  if (saved === "dark" || saved === "light") { apply(saved); }
+  else if (prefersDark) { apply("dark"); }
+  btn.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    apply(next);
+    try { localStorage.setItem("covtl-theme", next); } catch (e) {}
+  });
+
+  // --- Copie des SHA-256 (clipboard API + fallback execCommand)
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var val = b.getAttribute("data-copy");
+      var done = function () {
+        var old = b.innerHTML;
+        b.classList.add("copied");
+        b.innerHTML = document.getElementById("ic-check").innerHTML;
+        setTimeout(function () { b.classList.remove("copied"); b.innerHTML = old; }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(done, function () { fallback(val, done); });
+      } else { fallback(val, done); }
+    });
+  });
+  // --- Guard for the pending NotebookLM link (until the maintainer sets it)
+  var nlm = document.getElementById("notebooklm-link");
+  if (nlm) {
+    nlm.addEventListener("click", function (ev) {
+      if (nlm.getAttribute("data-pending") !== null) { ev.preventDefault(); }
+    });
+  }
+
+  function fallback(val, done) {
+    var ta = document.createElement("textarea");
+    ta.value = val; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
 </body>
 </html>

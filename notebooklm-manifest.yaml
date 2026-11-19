@@ -1,0 +1,109 @@
+# notebooklm-manifest.yaml - COVTL documentation corpus for NotebookLM
+#
+# This file lives at the ROOT of the covtl.org site repository. It is the
+# single machine-readable pointer list that a future GitHub -> Google
+# Drive -> NotebookLM synchronization agent will read (see the gateway
+# project brief; NOT implemented yet - this manifest only prepares it).
+#
+# Conventions:
+#   - `id` is stable: never rename or reuse an id; new documents get new ids.
+#   - `path` is the stable filename used in the Drive mirror folder
+#     (NotebookLM-Corpus/), not a location in this repository.
+#   - `repository` + `url` point at the authoritative document on GitHub
+#     (raw URL, main branch). GitHub remains the source of truth.
+#   - `excluded` lists documents intentionally NOT destined to NotebookLM.
+#   - Licenses are per document; the COVTL documentation is CC BY-SA 4.0
+#     (see LICENSE-DOCS.md in each repository). The COVTL chain is built
+#     on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de) - keep
+#     this credit attached where it applies.
+
+manifest_version: 1
+site: https://covtl.org
+notebook_url: ""   # reserved: public share link of the COVTL NotebookLM notebook (not created yet)
+drive_folder: NotebookLM-Corpus/
+
+documents:
+  - id: manual_001
+    path: covtl-reference-manual.pdf
+    repository: FBerthommier/covtl-pipeline
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/covtl-reference-manual.pdf
+    title: "COVTL reference manual - didactic synthesis of the documentation family (after Peter Birkholz / VocalTractLab 2.4)"
+    category: manual
+    format: pdf
+    version: 1.0.0
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+    credit: "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+
+  - id: manual_002
+    path: covtl-pipeline-manual.pdf
+    repository: FBerthommier/covtl-pipeline
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/manual.pdf
+    title: "COVTL pipeline - user manual (articulatory text-to-speech, polar targets, VocalTractLab 2.4)"
+    category: manual
+    format: pdf
+    version: 1.2.2
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+    credit: "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+
+  - id: manual_003
+    path: covtl-pipeline-speakers.pdf
+    repository: FBerthommier/covtl-pipeline
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/speakers.pdf
+    title: "COVTL speakers - guide to the five voices (registry, install_speaker, provenance)"
+    category: manual
+    format: pdf
+    version: 1.2.2
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+    credit: "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+
+  - id: manual_004
+    path: covtl-coverage-synthesis-waves1-4.pdf
+    repository: FBerthommier/covtl-pipeline
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/wave4/synthesis/COVERAGE_SYNTHESIS_WAVE1-4.pdf
+    title: "COVTL coverage synthesis - waves 1-4 (expressive prosody, phonation, sandhi)"
+    category: report
+    format: pdf
+    version: 1.2.2
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+    credit: "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+
+  - id: manual_005
+    path: covtl-sandhi-guide.pdf
+    repository: FBerthommier/covtl-sandhi
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-sandhi/main/docs/covtl-sandhi-guide.pdf
+    title: "covtl-sandhi - cross-word sandhi rules guide (liaison, a/an, linking-r, raddoppiamento, enlace, encadeamento, Glottalversatz)"
+    category: manual
+    format: pdf
+    version: 0.1.1
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+
+  - id: manual_006
+    path: covtl-console-user-manual.pdf
+    repository: FBerthommier/covtl-console
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-console/main/docs/user-manual/user-manual.pdf
+    title: "COVTL console - user manual (local lab web interface, polar display)"
+    category: manual
+    format: pdf
+    version: 3.1.10
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+    credit: "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+
+  - id: manual_007
+    path: covtl-console-tech-manual.pdf
+    repository: FBerthommier/covtl-console
+    url: https://raw.githubusercontent.com/FBerthommier/covtl-console/main/docs/tech-manual/tech-manual.pdf
+    title: "COVTL console - technical manual (bridge, API, packaging, standalone bundles)"
+    category: manual
+    format: pdf
+    version: 3.1.10
+    license: CC-BY-SA-4.0
+    last_modified: 2026-11-19
+    credit: "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+
+excluded: []
