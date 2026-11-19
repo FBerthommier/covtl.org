@@ -171,6 +171,18 @@
    "license": "CC-BY-SA-4.0",
    "last_modified": "2026-11-19",
    "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "license_001",
+   "path": "COPYING-NOTEBOOKLM.md",
+   "repository": "FBerthommier/covtl.org",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl.org/main/docs/COPYING-NOTEBOOKLM.md",
+   "title": "COPYING - license of the COVTL NotebookLM corpus (CC BY-SA 4.0, VocalTractLab credit)",
+   "category": "license",
+   "format": "md",
+   "version": "1.0.0",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19"
   }
  ],
  "excluded": [
