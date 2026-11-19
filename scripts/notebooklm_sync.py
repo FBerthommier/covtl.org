@@ -45,7 +45,7 @@ MIME = {"pdf": "application/pdf",
                 ".wordprocessingml.document"}
 REPORT = {"started_at": None, "mode": None, "added": [], "updated": [],
           "unchanged": [], "dry-run": [], "removed_from_manifest": [],
-          "errors": [], "documents_total": 0}
+          "warnings": [], "errors": [], "documents_total": 0}
 
 
 def log(msg):
@@ -163,8 +163,9 @@ def main():
             log(f"Drive folder {folder_id}: connecting")
         else:
             log("credentials absent (GOOGLE_CREDENTIALS/DRIVE_FOLDER_ID) "
-                "- falling back to DRY RUN")
-            REPORT["errors"].append(
+                "- falling back to DRY RUN (expected until the Google "
+                "secrets are configured)")
+            REPORT["warnings"].append(
                 "Drive credentials absent - ran in dry-run mode")
     REPORT["mode"] = "full" if full_mode else "dry-run"
 
@@ -240,6 +241,7 @@ def main():
                     f"unchanged: {len(REPORT['unchanged'])} · "
                     f"removed-from-manifest: "
                     f"{len(REPORT['removed_from_manifest'])} · "
+                    f"warnings: {len(REPORT['warnings'])} · "
                     f"errors: {len(REPORT['errors'])}\n")
     return 0 if not REPORT["errors"] else 1
 
