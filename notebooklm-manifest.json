@@ -134,32 +134,6 @@
    "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
   },
   {
-   "id": "manual_011",
-   "path": "covtl-audit-v1v2-report.pdf",
-   "repository": "FBerthommier/covtl-pipeline",
-   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/AUDIT_V1V2/rapport_audit_V1V2.pdf",
-   "title": "COVTL audit V1/V2 - rapport d'audit (French)",
-   "category": "report",
-   "format": "pdf",
-   "version": "1.0.0",
-   "license": "CC-BY-SA-4.0",
-   "last_modified": "2026-11-19",
-   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
-  },
-  {
-   "id": "manual_012",
-   "path": "covtl-audit-v1v2-implementation.pdf",
-   "repository": "FBerthommier/covtl-pipeline",
-   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/AUDIT_V1V2/rapport_implementation_V1V2.pdf",
-   "title": "COVTL audit V1/V2 - rapport d'implementation (French)",
-   "category": "report",
-   "format": "pdf",
-   "version": "1.0.0",
-   "license": "CC-BY-SA-4.0",
-   "last_modified": "2026-11-19",
-   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
-  },
-  {
    "id": "manual_013",
    "path": "covtl-wave4-commit-log.pdf",
    "repository": "FBerthommier/covtl-pipeline",
@@ -200,6 +174,20 @@
   }
  ],
  "excluded": [
+  {
+   "id": "manual_012",
+   "path": "covtl-audit-v1v2-implementation.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "title": "COVTL audit V1/V2 - rapport d'implementation (French)",
+   "reason": "French-language source removed from the notebook per owner decision"
+  },
+  {
+   "id": "manual_011",
+   "path": "covtl-audit-v1v2-report.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "title": "COVTL audit V1/V2 - rapport d'audit (French)",
+   "reason": "French-language source removed from the notebook per owner decision"
+  },
   {
    "path": "docs/wave4/cover_log.pdf",
    "repository": "FBerthommier/covtl-pipeline",
