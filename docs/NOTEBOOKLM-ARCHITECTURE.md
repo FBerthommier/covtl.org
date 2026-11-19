@@ -17,11 +17,10 @@ selected by `notebooklm-manifest.yaml`.
 
 ```
 GitHub (master corpus, manifest)
-        │  notebooklm-sync.yml (GitHub Actions)
-        │  scripts/notebooklm_sync.py
-        │    1. read manifest (ids stable across editions)
+        │  Google Apps Script (docs/NotebookLM-AppsScript.gs)
+        │    1. read manifest JSON twin (ids stable across editions)
         │    2. download each document from its raw.githubusercontent URL
-        │    3. fingerprint (SHA-256) and compare with Drive (MD5)
+        │    3. fingerprint (MD5) and compare with the Drive folder
         │    4. create missing files, update changed files IN PLACE
         │       (Drive file ids preserved), never delete
         ▼
@@ -30,6 +29,12 @@ Google Drive  NotebookLM-Corpus/   (mirror only)
         ▼
 NotebookLM notebook  (public share link, stable)
 ```
+
+The agent runs as an **Apps Script in the site owner's own Google
+account** — no Google Cloud project, no billing, no service account, no
+GitHub secrets. A GitHub Actions workflow (`notebooklm-sync.yml`) remains
+available as a **read-only verification/report** lane (it downloads the
+corpus and fingerprints it without touching Drive).
 
 ## What synchronises automatically — and what does not
 
@@ -64,20 +69,23 @@ the agent handles them identically.
 
 | Component | Role |
 |---|---|
-| `notebooklm-manifest.yaml` | what belongs to the notebook; stable ids |
-| `scripts/notebooklm_sync.py` | the agent (download → diff → mirror) |
-| `.github/workflows/notebooklm-sync.yml` | triggers: manifest push, manual dispatch (dry-run default), weekly dry-run report |
-| `docs/NOTEBOOKLM-SETUP.md` | one-time configuration (Drive folder, secrets, notebook) |
+| `notebooklm-manifest.yaml` | what belongs to the notebook; stable ids (reference source) |
+| `notebooklm-manifest.json` | JSON twin of the manifest, read by the Apps Script (regenerate when the YAML changes) |
+| `docs/NotebookLM-AppsScript.gs` | the agent (download → diff → mirror), runs in the owner's Google account |
+| `.github/workflows/notebooklm-sync.yml` | read-only verification lane: downloads the corpus and reports fingerprints (dry-run) on manifest push, dispatch, weekly |
+| `docs/NOTEBOOKLM-SETUP.md` | one-time configuration (Drive folder, Apps Script, notebook) |
 | `docs/NOTEBOOKLM-MAINTENANCE.md` | day-to-day updates, incidents, recovery |
 
 ## Guarantees
 
 - No deletion is ever automatic (removed-from-manifest files are
   reported and left in place, pending manual validation).
-- Drive file ids are preserved (in-place `files.update`).
+- Drive file ids are preserved (in-place update via the advanced Drive
+  service).
 - Ids/paths in the manifest are stable: editing a document never changes
   its identity in Drive or in the notebook.
 - Git history is never rewritten; destructive operations require
   explicit validation.
-- Without Google secrets the workflow runs in **dry-run** (report only)
-  and stays green.
+- The Apps Script runs with the owner's identity and only touches the
+  `NotebookLM-Corpus/` folder; the Actions lane is read-only and stays
+  green with no credentials at all.

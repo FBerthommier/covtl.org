@@ -1,65 +1,71 @@
-# NOTEBOOKLM-SETUP.md — one-time configuration
+# NOTEBOOKLM-SETUP.md — one-time configuration (free variant, no Google Cloud)
 
-Do these steps in order. Steps 1–4 need the site owner's Google account;
-step 5 is done by the maintainer in the GitHub settings.
+Do these steps in order. Everything happens with **your own Google
+account** — no billing account, no credit card, no Google Cloud project,
+no GitHub secrets.
 
 ## 1. Create the Drive mirror folder
 
 1. In Google Drive, create a folder named exactly **`NotebookLM-Corpus/`**.
-2. Note its **folder id** — the last segment of its URL:
-   `https://drive.google.com/drive/folders/<DRIVE_FOLDER_ID>`.
+2. Leave it empty: it will hold ONLY the documents listed in the
+   manifest.
 
-## 2. Create the Google service account
+## 2. Install the sync agent (Apps Script)
 
-1. Google Cloud Console → create (or pick) a project → enable the
-   **Google Drive API**.
-2. IAM → Service Accounts → create one (e.g. `notebooklm-sync`).
-3. Keys → add key → JSON: a private key file is downloaded. Treat it as
-   a password.
-4. The agent only needs the `drive.file` scope: it sees just the folder
-   shared with it.
+1. Open https://script.google.com → **New project**.
+2. Delete the default code, paste the whole content of
+   [`docs/NotebookLM-AppsScript.gs`](NotebookLM-AppsScript.gs) (this
+   repository), rename the project (e.g. `notebooklm-sync`).
+3. Enable the advanced Drive service: **Editor → Services (+)** → select
+   **Drive API** → Add. (This is the v2 advanced service, needed to
+   update files in place and read their MD5.)
+4. Save. Select the `syncNotebookLm` function in the toolbar and click
+   **Run**. Google asks for authorization once — review and allow
+   (warning about "unverified app" is normal: it is your own script).
+5. **Check**: View → Logs (or "Executions") shows the report:
+   `added: 7` on the first run, then `unchanged: 7` on a second run —
+   and the 7 documents are visible in `NotebookLM-Corpus/`.
 
-## 3. Share the folder with the service account
+## 3. Optional: automatic refresh
 
-In the `NotebookLM-Corpus/` folder: Share → add the service account's
-`…@…iam.gserviceaccount.com` address with **Editor** right. (Sharing a
-folder with a service account gives it access without domain-wide
-delegation.)
+Editor → clock icon (**Triggers**) → Add trigger → function
+`syncNotebookLm`, time-based, weekly (or use the provided
+`installWeeklyTrigger()` helper once). Manual runs remain possible
+anytime. Every run is a fingerprint-diff: only changed documents are
+transferred.
 
-## 4. Configure the GitHub secrets
+## 4. Create the NotebookLM notebook and import the sources
 
-Repository `FBerthommier/covtl.org` → Settings → Secrets and variables →
-Actions → New repository secret:
-
-| Secret | Value |
-|---|---|
-| `GOOGLE_CREDENTIALS` | the **whole JSON content** of the service-account key file (paste it raw) |
-| `DRIVE_FOLDER_ID` | the folder id from step 1 |
-
-Never commit a key or a token; these values live only in Secrets.
-
-## 5. Create the NotebookLM notebook and import the sources
-
-1. https://notebooklm.google.com → New notebook → name it
+1. https://notebooklm.google.com → **New notebook** → name it
    (e.g. « COVTL — articulatory speech synthesis »).
 2. Add sources → **Google Drive** → select the 7 documents in
-   `NotebookLM-Corpus/` (they are already mirrored there by the workflow,
-   or run it once in full mode first — see below).
-3. Check each source shows the current document version.
+   `NotebookLM-Corpus/`.
+3. Check each source opens and shows the current version.
 4. Share settings → **Anyone with the link — Viewer**.
 5. Copy the public link (`https://notebooklm.google.com/notebook/<id>`).
-6. Open the link in a private window / another account to test access.
+6. Open the link in a private window to test access.
 
-## 6. Wire the site button
+## 5. Wire the site button
 
-In `index.html`, the tagged `notebooklm-link` block:
-replace `href="#notebooklm-pending"` with the notebook URL and remove
-`data-pending="true"` (one-attribute edit; the greyed style and the click
-guard disappear with it). Also fill `notebook_url:` in
-`notebooklm-manifest.yaml`. Commit.
+In `index.html`, the tagged `notebooklm-link` block: replace
+`href="#notebooklm-pending"` with the notebook URL and remove
+`data-pending="true"` (one-attribute edit; the greyed style and the
+click guard disappear with it). Also fill `notebook_url:` in
+`notebooklm-manifest.yaml`. Commit — or hand the link to the maintainer.
 
-## 7. First full sync
+## 6. Keep the two manifest files in sync
 
-Repository → Actions → **notebooklm-sync** → Run workflow →
-`dry_run = false`. The run summary reports added/updated/unchanged/errors.
-Re-run with `dry_run = true` anytime to inspect without writing.
+The Apps Script reads `notebooklm-manifest.json` (its JSON twin — Apps
+Script has no YAML parser). Whenever you edit
+`notebooklm-manifest.yaml`, regenerate/commit the JSON twin too
+(both live at the repository root). The GitHub Actions workflow
+`notebooklm-sync` stays available as a dry-run verification report
+(it reads the YAML and writes nothing).
+
+## Deprecated alternative (kept for the record)
+
+A service-account variant (Google Cloud + GitHub secrets + Actions
+writing to Drive) exists in git history (`scripts/notebooklm_sync.py`
+still supports it) but is NOT the recommended path: Google Cloud now
+requires a billing account attached to projects. The Apps Script variant
+above needs none of that.
