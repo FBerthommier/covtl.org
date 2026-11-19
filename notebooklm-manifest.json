@@ -93,7 +93,132 @@
    "license": "CC-BY-SA-4.0",
    "last_modified": "2026-11-19",
    "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_008",
+   "path": "covtl-expressive-prosody.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/expressive_prosody.pdf",
+   "title": "COVTL expressive prosody - accent, metrical structure and prosodic control of the synthesis",
+   "category": "manual",
+   "format": "pdf",
+   "version": "1.2.2",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_009",
+   "path": "covtl-polar-visualization.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/polar_visualization.pdf",
+   "title": "COVTL polar visualization - the polar representation of articulatory targets",
+   "category": "manual",
+   "format": "pdf",
+   "version": "1.2.2",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_010",
+   "path": "covtl-language-pack.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/language_pack.pdf",
+   "title": "COVTL language pack - the six languages (en, fr, es, de, it, pt) and setup_lang",
+   "category": "manual",
+   "format": "pdf",
+   "version": "1.1.0",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_011",
+   "path": "covtl-audit-v1v2-report.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/AUDIT_V1V2/rapport_audit_V1V2.pdf",
+   "title": "COVTL audit V1/V2 - rapport d'audit (French)",
+   "category": "report",
+   "format": "pdf",
+   "version": "1.0.0",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_012",
+   "path": "covtl-audit-v1v2-implementation.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/AUDIT_V1V2/rapport_implementation_V1V2.pdf",
+   "title": "COVTL audit V1/V2 - rapport d'implementation (French)",
+   "category": "report",
+   "format": "pdf",
+   "version": "1.0.0",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_013",
+   "path": "covtl-wave4-commit-log.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/wave4/COMMIT_LOG_WAVE4.pdf",
+   "title": "COVTL wave 4 - commit log (deployment trail of the expressive-prosody wave)",
+   "category": "archive",
+   "format": "pdf",
+   "version": "1.2.0",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_014",
+   "path": "covtl-console-covconf-certificate.pdf",
+   "repository": "FBerthommier/covtl-console",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-console/main/docs/certificates/COVCONF-3SRC-3706f0c0.pdf",
+   "title": "COVTL console - COVCONF certificate (3-source validation, 3706f0c0)",
+   "category": "certificate",
+   "format": "pdf",
+   "version": "3.1.10",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
+  },
+  {
+   "id": "manual_015",
+   "path": "covtl-console-polar-equivalence-certificate.pdf",
+   "repository": "FBerthommier/covtl-console",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-console/main/docs/certificates/Polar_Display_Equivalence_Certificate.pdf",
+   "title": "COVTL console - polar display equivalence certificate (console vs pipeline)",
+   "category": "certificate",
+   "format": "pdf",
+   "version": "3.1.10",
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-19",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
   }
  ],
- "excluded": []
+ "excluded": [
+  {
+   "path": "docs/wave4/cover_log.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "reason": "cover page only"
+  },
+  {
+   "path": "docs/wave4/synthesis/cover_synth.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "reason": "cover page only"
+  },
+  {
+   "path": "docs/figures/pipeline_flow.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "reason": "figure embedded in the manuals"
+  },
+  {
+   "path": "docs/figures/vowel_triangle.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "reason": "figure embedded in the manuals"
+  }
+ ]
 }
