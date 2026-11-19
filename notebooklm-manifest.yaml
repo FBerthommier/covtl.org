@@ -1,5 +1,9 @@
 # notebooklm-manifest.yaml - COVTL documentation corpus for NotebookLM
 #
+# NOTE: a JSON twin (notebooklm-manifest.json) sits next to this file —
+# the Apps Script agent (docs/NotebookLM-AppsScript.gs) reads the JSON.
+# When editing this YAML, regenerate/commit the JSON twin too.
+#
 # This file lives at the ROOT of the covtl.org site repository. It is the
 # single machine-readable pointer list that a future GitHub -> Google
 # Drive -> NotebookLM synchronization agent will read (see the gateway
