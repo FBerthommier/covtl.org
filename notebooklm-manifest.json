@@ -183,6 +183,19 @@
    "version": "1.0.0",
    "license": "CC-BY-SA-4.0",
    "last_modified": "2026-11-19"
+  },
+  {
+   "id": "manual_016",
+   "path": "covtl-from-phonetics-to-articulatory-phonology.pdf",
+   "repository": "FBerthommier/covtl-pipeline",
+   "url": "https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/From_Phonetics_to_Articulatory_Phonology.pdf",
+   "title": "COVTL - From Phonetics to Articulatory Phonology (the making of covtl, step by step - didactic manual, 2nd edition, EN-US)",
+   "category": "manual",
+   "format": "pdf",
+   "version": 2.0,
+   "license": "CC-BY-SA-4.0",
+   "last_modified": "2026-11-23",
+   "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
   }
  ],
  "excluded": [
