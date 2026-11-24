@@ -47,7 +47,7 @@ documents:
   format: pdf
   version: 1.2.2
   license: CC-BY-SA-4.0
-  last_modified: 2026-11-19
+  last_modified: 2026-11-24
   credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
 - id: manual_003
   path: covtl-pipeline-speakers.pdf
@@ -58,7 +58,7 @@ documents:
   format: pdf
   version: 1.2.2
   license: CC-BY-SA-4.0
-  last_modified: 2026-11-19
+  last_modified: 2026-11-24
   credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
 - id: manual_004
   path: covtl-coverage-synthesis-waves1-4.pdf
@@ -124,7 +124,7 @@ documents:
   format: pdf
   version: 1.2.2
   license: CC-BY-SA-4.0
-  last_modified: 2026-11-19
+  last_modified: 2026-11-24
   credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
 - id: manual_010
   path: covtl-language-pack.pdf
@@ -135,7 +135,7 @@ documents:
   format: pdf
   version: 1.1.0
   license: CC-BY-SA-4.0
-  last_modified: 2026-11-19
+  last_modified: 2026-11-24
   credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
 - id: manual_013
   path: covtl-wave4-commit-log.pdf
@@ -190,6 +190,29 @@ documents:
   version: 2.0
   license: CC-BY-SA-4.0
   last_modified: 2026-11-23
+  credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
+
+- id: manual_017
+  path: covtl-from-phonetics-errata.md
+  repository: FBerthommier/covtl-pipeline
+  url: https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/From_Phonetics_errata.md
+  title: "COVTL didactic manual - errata sheet (2nd edition - dental target 270 deg, .polar v5)"
+  category: errata
+  format: md
+  version: 1.0
+  license: CC-BY-SA-4.0
+  last_modified: 2026-11-24
+  credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
+- id: manual_018
+  path: covtl-reference-manual-errata.md
+  repository: FBerthommier/covtl-pipeline
+  url: https://raw.githubusercontent.com/FBerthommier/covtl-pipeline/main/docs/reference-manual-errata.md
+  title: "COVTL reference manual - errata sheet (.polar v5, user manual 28 pp)"
+  category: errata
+  format: md
+  version: 1.0
+  license: CC-BY-SA-4.0
+  last_modified: 2026-11-24
   credit: Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)
 
 excluded:
