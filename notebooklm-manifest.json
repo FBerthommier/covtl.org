@@ -25,9 +25,9 @@
    "title": "COVTL pipeline - user manual (articulatory text-to-speech, polar targets, VocalTractLab 2.4)",
    "category": "manual",
    "format": "pdf",
-   "version": "1.2.2",
+   "version": "1.2.4",
    "license": "CC-BY-SA-4.0",
-   "last_modified": "2026-11-24",
+   "last_modified": "2026-11-26",
    "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
   },
   {
@@ -115,9 +115,9 @@
    "title": "COVTL polar visualization - the polar representation of articulatory targets",
    "category": "manual",
    "format": "pdf",
-   "version": "1.2.2",
+   "version": "1.2.4",
    "license": "CC-BY-SA-4.0",
-   "last_modified": "2026-11-24",
+   "last_modified": "2026-11-26",
    "credit": "Built on VocalTractLab 2.4 by Peter Birkholz (vocaltractlab.de)"
   },
   {
